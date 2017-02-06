@@ -1,0 +1,7 @@
+security:
+  user:
+    name: admin
+
+management:
+  security:
+    roles: SUPERUSER
