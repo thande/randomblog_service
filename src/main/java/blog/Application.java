@@ -1,16 +1,25 @@
 package blog;
 
+import blog.model.BlogRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.Date;
 
 
 /**
  * Created by sdelight on 5/28/15.
  */
 @SpringBootApplication
-public class Application {
+public class Application implements CommandLineRunner {
+
+
+    @Autowired
+    private BlogRepository repository;
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
@@ -18,42 +27,37 @@ public class Application {
             SpringApplication.run(Application.class, args);
         }
 
-/*
-    @Bean
-    public CommandLineRunner demo(BlogRepository repository) {
-        return (args) -> {
-            // save a couple of customers
-            repository.save(new Blog("Jack", "Bauer"));
-            repository.save(new Blog("Chloe", "O'Brian"));
-            repository.save(new Blog("Kim", "Bauer"));
-            repository.save(new Blog("David", "Palmer"));
-            repository.save(new Blog("Michelle", "Dessler"));
+    @Override
+    public void run(String... args) throws Exception {
+        log.info("starting run method");
 
-            // fetch all customers
-            log.info("Customers found with findAll():");
-            log.info("-------------------------------");
-            for (Blog blog : repository.findAll()) {
-                log.info(Blog.toString());
-            }
-            log.info("");
+        repository.deleteAll();
 
-            // fetch an individual customer by ID
-            Blog blog = repository.findOne(1L);
-            log.info("Customer found with findOne(1L):");
-            log.info("--------------------------------");
-            log.info(customer.toString());
-            log.info("");
+        // save a couple of customers
+        Blog blg = new Blog();
+        blg.setId(1);
+        blg.setName("First1");
+        blg.setContent("Contents1");
+        blg.setCreatedDate(new Date());
+        repository.save( blg);
 
-            // fetch customers by last name
-            log.info("Customer found with findByLastName('Bauer'):");
-            log.info("--------------------------------------------");
-            for (Customer bauer : repository.findByLastName("Bauer")) {
-                log.info(bauer.toString());
-            }
-            log.info("");
-        };
+        repository.save(new Blog(2,"Second", "Awesome Content",new Date()));
+
+        // fetch all customers
+        log.info("Customers found with findAll():");
+        log.info("-------------------------------");
+        for (Blog blog : repository.findAll()) {
+            log.info(blog.getId()+blog.getName()+blog.getContent());
+        }
+        log.info("");
+
+        // fetch an individual customer
+        log.info("Customer found with findByName('First1'):");
+        log.info("--------------------------------");
+        log.info(repository.findByName("First1").getName());
+
+
     }
-*/
 
 
 
