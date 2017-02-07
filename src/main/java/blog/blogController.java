@@ -59,7 +59,7 @@ public class blogController {
         return blg;
     }
 
-    @RequestMapping(value = blogRestURIConstants.DELETE_BLOG, method = RequestMethod.PUT)
+    @RequestMapping(value = blogRestURIConstants.DELETE_BLOG, method = RequestMethod.DELETE)
     public @ResponseBody Blog deleteBlog(@PathVariable("id") int blogId) {
         logger.info("Start deleteBlog");
         Blog blg = blogData.get(blogId);
